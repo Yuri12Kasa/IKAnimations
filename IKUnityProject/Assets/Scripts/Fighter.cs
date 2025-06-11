@@ -12,6 +12,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] private LimbController _rightLeg;
 
     [SerializeField] private AnimationClip _punchClip;
+    [SerializeField] private AnimationClip _heavyPunchClip;
     
     private Animator _anim;
 
@@ -24,6 +25,12 @@ public class Fighter : MonoBehaviour
     public void Punch()
     {
         StartCoroutine(ActionCoroutine("Punch", _leftArm, _punchClip));
+    }
+    
+    [Button]
+    public void HeavyPunch()
+    {
+        StartCoroutine(ActionCoroutine("HeavyPunch", _leftArm, _heavyPunchClip));
     }
 
     private IEnumerator ActionCoroutine(string animParameter, LimbController limbController, AnimationClip clip)
