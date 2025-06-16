@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class AnimationEventHandler : MonoBehaviour
 {
-    public void DebugMessage()
+    public void DebugMessage(string message)
     {
-        Debug.Log("EventCalled");
+        Debug.Log(message);
     }
 }
