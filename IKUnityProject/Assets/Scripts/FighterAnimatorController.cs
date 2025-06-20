@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,8 +9,10 @@ public class FighterAnimatorController : MonoBehaviour
     [SerializeField] private Animator _animator;
 
     private StateManager _state;
+    private float _moveInput;
     private float _moveSpeed = 0.5f;
     private bool _canMove = true;
+    [SerializeField] private bool _flipped;
 
     private void Awake()
     {
@@ -31,7 +32,7 @@ public class FighterAnimatorController : MonoBehaviour
 
     private void OnMove(InputValue value)
     {
-        _moveSpeed = Mathf.InverseLerp(-1f, 1f, value.Get<float>());
+        _moveInput = value.Get<float>();
     }
 
     private void OnLAttack(InputValue value)
@@ -46,7 +47,12 @@ public class FighterAnimatorController : MonoBehaviour
 
     private void Update()
     {
-        if(_canMove)
-            _animator.SetFloat(Speed, _moveSpeed);
+        if (!_canMove)
+            return;
+        
+        _animator.SetFloat(Speed, _moveSpeed);
+        _flipped = Mathf.Approximately(transform.eulerAngles.y, 180);
+        var minMax = _flipped ? new Vector2(1f, -1f) : new Vector2(-1f, 1f);
+        _moveSpeed = Mathf.InverseLerp(minMax.x, minMax.y, _moveInput);
     }
 }

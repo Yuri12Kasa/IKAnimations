@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,7 +6,8 @@ public class FighterMovement : MonoBehaviour
 {
     public float MoveSpeed = 5f;
     private float _moveInput;
-    [SerializeField] private bool _canMove = true;
+    private bool _canMove = true;
+    private bool _flipped;
     
     private Rigidbody _rb;
     private StateManager _stateManager;
@@ -37,7 +39,7 @@ public class FighterMovement : MonoBehaviour
         if(!_canMove)
             return;
         
-        var movement = new Vector3(_moveInput, 0, 0) * (MoveSpeed * Time.fixedDeltaTime);
+        var movement = Vector3.forward * (_moveInput * (MoveSpeed * Time.fixedDeltaTime));
         _rb.MovePosition(_rb.position + movement);
     }
 }
