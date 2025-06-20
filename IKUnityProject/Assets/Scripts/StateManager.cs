@@ -16,7 +16,8 @@ public class StateManager : MonoBehaviour
     private void Awake()
     {
         _fighterAttack = GetComponent<FighterAttack>();
-        _fighterAttack.OnStartAttack += () => SetState(FighterState.Attack);
+        _fighterAttack.OnStartAttack += () => SetState(FighterState.Startup);
+        _fighterAttack.OnStartActiveFrames += () => SetState(FighterState.Active);
         _fighterAttack.OnStartRecover += () => SetState(FighterState.Recover);
         _fighterAttack.OnEndAttack += () => SetState(FighterState.Neutral);
     }

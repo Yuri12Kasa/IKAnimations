@@ -21,18 +21,12 @@ public class FighterAnimatorController : MonoBehaviour
 
     private void OnStateChange(FighterState newState)
     {
-        switch (newState)
+        _canMove = newState switch
         {
-            case FighterState.Neutral:
-                _canMove = true;
-                break;
-            case FighterState.Attack:
-            case FighterState.Recover:
-                _canMove = false;
-                _moveSpeed = 0.5f;
-                _animator.SetFloat(Speed, _moveSpeed);
-                break;
-        }
+            FighterState.Neutral or FighterState.Moving => true,
+            FighterState.Startup => false,
+            _ => _canMove
+        };
     }
 
     private void OnMove(InputValue value)
@@ -42,12 +36,12 @@ public class FighterAnimatorController : MonoBehaviour
 
     private void OnLAttack(InputValue value)
     {
-        //_animator.SetTrigger(LAttack);
+        _animator.SetTrigger(LAttack);
     }
 
     private void OnMAttack(InputValue value)
     {
-        //_animator.SetTrigger(MAttack);
+        _animator.SetTrigger(MAttack);
     }
 
     private void Update()

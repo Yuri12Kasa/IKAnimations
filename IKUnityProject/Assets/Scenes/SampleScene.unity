@@ -1343,20 +1343,20 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 0.15882352
-        outSlope: 0.15882352
+        inSlope: 0.27108434
+        outSlope: 0.27108434
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.23611113
+        outWeight: 0.23055556
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 3.444445
-        outSlope: 3.444445
+        inSlope: 3.0000026
+        outSlope: 3.0000026
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.07499999
+        inWeight: 0.088888824
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -1366,21 +1366,21 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.9833336
-        inSlope: -3.1615396
-        outSlope: -3.1615396
+        value: 0
+        inSlope: 0.27108434
+        outSlope: 0.27108434
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.18055557
+        outWeight: 0.23055556
       - serializedVersion: 3
         time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
+        value: 1
+        inSlope: 3.0000026
+        outSlope: 3.0000026
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.088888824
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -1394,20 +1394,20 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 0
-        outSlope: 0
+        inSlope: 0.27108434
+        outSlope: 0.27108434
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.23055556
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 2
-        outSlope: 2
+        inSlope: 3.0000026
+        outSlope: 3.0000026
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.088888824
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -1418,20 +1418,20 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 0
-        outSlope: 0
+        inSlope: 0.27108434
+        outSlope: 0.27108434
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.23055556
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 2
-        outSlope: 2
+        inSlope: 3.0000026
+        outSlope: 3.0000026
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.088888824
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -1510,7 +1510,7 @@ MonoBehaviour:
     m_ActionId: b59e9924-f351-4640-adbe-8ef9be4d9d11
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Gamepad
+  m_DefaultControlScheme: 
   m_DefaultActionMap: Controller
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -1527,6 +1527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 1.5
+  _canMove: 1
 --- !u!54 &1399996289
 Rigidbody:
   m_ObjectHideFlags: 0

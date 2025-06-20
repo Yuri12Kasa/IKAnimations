@@ -5,7 +5,7 @@ public class FighterMovement : MonoBehaviour
 {
     public float MoveSpeed = 5f;
     private float _moveInput;
-    private bool _canMove = true;
+    [SerializeField] private bool _canMove = true;
     
     private Rigidbody _rb;
     private StateManager _stateManager;
@@ -19,15 +19,17 @@ public class FighterMovement : MonoBehaviour
 
     private void SetCanMove(FighterState newState)
     {
-        _canMove = newState == FighterState.Neutral;
+        _canMove = newState switch
+        {
+            FighterState.Neutral or FighterState.Moving => true,
+            FighterState.Startup => false,
+            _ => _canMove
+        };
     }
 
     private void OnMove(InputValue value)
     {
-        if(_canMove)
-            _moveInput = value.Get<float>();
-        else
-            _moveInput = 0;
+        _moveInput = value.Get<float>();
     }
 
     private void FixedUpdate()

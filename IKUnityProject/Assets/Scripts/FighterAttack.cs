@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 public class FighterAttack : MonoBehaviour
 {
     public Action OnStartAttack;
+    public Action OnStartActiveFrames;
     public Action OnStartRecover;
     public Action OnEndAttack;
     
@@ -37,9 +38,11 @@ public class FighterAttack : MonoBehaviour
         var actionConnection = clip.events[0].time;
         Debug.Log($"Clip Duration: {clipDuration}, Action Connection: {actionConnection}");
         var timer = 0f;
+        float t;
         while (timer < actionConnection)
         {
-            limbRigController.SetRigWeight(curveIn.Evaluate(timer / actionConnection));
+            t = curveIn.Evaluate(timer / actionConnection);
+            limbRigController.SetRigWeight(t);
             timer += Time.deltaTime;
             yield return null;
         }
@@ -48,10 +51,12 @@ public class FighterAttack : MonoBehaviour
         OnStartRecover?.Invoke();
         
         var remainingTime = clipDuration - actionConnection;
-        
+        timer = 0f;
+
         while (timer < remainingTime)
         {
-            limbRigController.SetRigWeight(curveOut.Evaluate((timer / remainingTime)));
+            t = 1 - curveOut.Evaluate(timer / remainingTime);
+            limbRigController.SetRigWeight(t);
             timer += Time.deltaTime;
             yield return null;
         }
