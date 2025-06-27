@@ -663,6 +663,7 @@ MonoBehaviour:
   _target: {fileID: 1609239955}
   _yOffset: 1
   _distanceRatio: 1.33
+  _minMaxDistance: {x: 2, y: 4}
   _cameraHolder: {fileID: 91133637}
 --- !u!1 &832575517
 GameObject:

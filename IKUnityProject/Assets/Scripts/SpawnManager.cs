@@ -29,14 +29,35 @@ public class SpawnManager : MonoBehaviour
     private void Init()
     {
         var gamepads = Gamepad.all;
+
+        InputDevice firstFighterInput;
+        InputDevice secondFighterInput;
+        
+        switch (gamepads.Count)
+        {
+            case 0:
+                firstFighterInput = Keyboard.current;
+                secondFighterInput = null;
+                break;
+            case 1:
+                firstFighterInput = gamepads[0];
+                secondFighterInput = null;
+                break;
+            default:
+                firstFighterInput = gamepads[0];
+                secondFighterInput = gamepads[1];
+                break;
+        }
+        
         for (var i = 0; i < 2; i++)
         {
+            var inputDevice = i == 0 ? firstFighterInput : secondFighterInput;
             Fighters[i] = PlayerInput.Instantiate
             (
                 _fighterPrefab,
                 playerIndex: i,
                 controlScheme: "Gamepad",
-                pairWithDevice: gamepads[i]
+                pairWithDevice: inputDevice
             ).transform;
             
             Fighters[i].position = _spawnPoints[i].position;

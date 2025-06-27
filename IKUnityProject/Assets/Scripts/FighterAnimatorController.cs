@@ -6,6 +6,7 @@ public class FighterAnimatorController : MonoBehaviour
     private static readonly int Speed = Animator.StringToHash("Speed");
     private static readonly int LAttack = Animator.StringToHash("LAttack");
     private static readonly int MAttack = Animator.StringToHash("MAttack");
+    private static readonly int Jump = Animator.StringToHash("Jump");
     [SerializeField] private Animator _animator;
 
     private StateManager _state;
@@ -43,6 +44,11 @@ public class FighterAnimatorController : MonoBehaviour
     private void OnMAttack(InputValue value)
     {
         _animator.SetTrigger(MAttack);
+    }
+
+    private void OnJump(InputValue value)
+    {
+        _animator.SetBool(Jump, true);
     }
 
     private void Update()
