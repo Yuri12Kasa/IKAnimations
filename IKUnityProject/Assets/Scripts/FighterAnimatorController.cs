@@ -7,6 +7,7 @@ public class FighterAnimatorController : MonoBehaviour
     private static readonly int LAttack = Animator.StringToHash("LAttack");
     private static readonly int MAttack = Animator.StringToHash("MAttack");
     private static readonly int Jump = Animator.StringToHash("Jump");
+    private static readonly int Land = Animator.StringToHash("Land");
     [SerializeField] private Animator _animator;
 
     private StateManager _state;
@@ -14,6 +15,7 @@ public class FighterAnimatorController : MonoBehaviour
     private float _moveSpeed = 0.5f;
     private bool _canMove = true;
     [SerializeField] private bool _flipped;
+    private bool _jumping;
 
     private void Awake()
     {
@@ -29,6 +31,11 @@ public class FighterAnimatorController : MonoBehaviour
             FighterState.Startup => false,
             _ => _canMove
         };
+
+        if (newState == FighterState.Neutral && _jumping)
+        {
+            OnLand();
+        }
     }
 
     private void OnMove(InputValue value)
@@ -48,7 +55,14 @@ public class FighterAnimatorController : MonoBehaviour
 
     private void OnJump(InputValue value)
     {
-        _animator.SetBool(Jump, true);
+        _jumping = true;
+        _animator.SetTrigger(Jump);
+    }
+
+    private void OnLand()
+    {
+        _jumping = false;
+        _animator.SetTrigger(Land);
     }
 
     private void Update()
