@@ -22,8 +22,9 @@ public class StateManager : MonoBehaviour
         _fighterAttack.OnEndAttack += () => SetState(FighterState.Neutral);
         
         _fighterMovement = GetComponent<FighterMovement>();
-        _fighterMovement.OnMoveStart += () => SetState(FighterState.Moving);
-        _fighterMovement.OnMoveStop += () => SetState(FighterState.Neutral);
+        _fighterMovement.OnMoveStart += OnMoveStart;
+        _fighterMovement.OnMoveStop += OnMoveStop;
+        
         _fighterMovement.OnJumpStart += () => SetState(FighterState.Jumping);
         _fighterMovement.OnJumpLand += () => SetState(FighterState.Neutral);
     }
@@ -32,5 +33,25 @@ public class StateManager : MonoBehaviour
     {
         State = fighterState;
         OnStateChange?.Invoke(fighterState);
+    }
+
+    private void OnMoveStart()
+    {
+        if (State == FighterState.Jumping)
+            return;
+        State = FighterState.Moving;
+    }
+    
+    private void OnMoveStop()
+    {
+        if (State == FighterState.Jumping)
+            return;
+        State = FighterState.Neutral;
+    }
+
+    private void OnDestroy()
+    {
+        _fighterMovement.OnMoveStart += OnMoveStart;
+        _fighterMovement.OnMoveStop += OnMoveStop;
     }
 }

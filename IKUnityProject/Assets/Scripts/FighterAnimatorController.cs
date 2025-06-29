@@ -6,73 +6,56 @@ public class FighterAnimatorController : MonoBehaviour
     private static readonly int Speed = Animator.StringToHash("Speed");
     private static readonly int LAttack = Animator.StringToHash("LAttack");
     private static readonly int MAttack = Animator.StringToHash("MAttack");
-    private static readonly int Jump = Animator.StringToHash("Jump");
-    private static readonly int Land = Animator.StringToHash("Land");
+    private static readonly int Jump = Animator.StringToHash("Jumping");
+    
     [SerializeField] private Animator _animator;
 
-    private StateManager _state;
     private float _moveInput;
     private float _moveSpeed = 0.5f;
-    private bool _canMove = true;
-    [SerializeField] private bool _flipped;
-    private bool _jumping;
+    
+    private FighterMovement _fighterMovement;
+    private FighterAttack _fighterAttack;
 
     private void Awake()
     {
-        _state = GetComponent<StateManager>();
-        _state.OnStateChange += OnStateChange;
+        _fighterMovement = GetComponent<FighterMovement>();
+        _fighterMovement.OnJumpStart += OnStartJump;
+        _fighterMovement.OnJumpLand += OnLand;
+
+        _fighterAttack = GetComponent<FighterAttack>();
+        _fighterAttack.OnStartLAttack += OnStartLAttack;
+        _fighterAttack.OnStartMAttack += OnStartMAttack;
     }
 
-    private void OnStateChange(FighterState newState)
+    private void OnStartJump()
     {
-        _canMove = newState switch
-        {
-            FighterState.Neutral or FighterState.Moving => true,
-            FighterState.Startup => false,
-            _ => _canMove
-        };
-
-        if (newState == FighterState.Neutral && _jumping)
-        {
-            OnLand();
-        }
-    }
-
-    private void OnMove(InputValue value)
-    {
-        _moveInput = value.Get<float>();
-    }
-
-    private void OnLAttack(InputValue value)
-    {
-        _animator.SetTrigger(LAttack);
-    }
-
-    private void OnMAttack(InputValue value)
-    {
-        _animator.SetTrigger(MAttack);
-    }
-
-    private void OnJump(InputValue value)
-    {
-        _jumping = true;
-        _animator.SetTrigger(Jump);
+        _animator.SetBool(Jump, true);
     }
 
     private void OnLand()
     {
-        _jumping = false;
-        _animator.SetTrigger(Land);
+        _animator.SetBool(Jump, false);
+    }
+
+    private void OnStartLAttack()
+    {
+        _animator.SetTrigger(LAttack);
+    }
+    
+    private void OnStartMAttack()
+    {
+        _animator.SetTrigger(MAttack);
     }
 
     private void Update()
     {
-        if (!_canMove)
+        if (!_fighterMovement.CanMove)
             return;
         
+        var minMax = Mathf.Approximately(transform.eulerAngles.y, 180) ? 
+            new Vector2(1f, -1f) : new Vector2(-1f, 1f);
+        _moveSpeed = Mathf.InverseLerp(minMax.x, minMax.y, _fighterMovement.MoveInput);
         _animator.SetFloat(Speed, _moveSpeed);
-        _flipped = Mathf.Approximately(transform.eulerAngles.y, 180);
-        var minMax = _flipped ? new Vector2(1f, -1f) : new Vector2(-1f, 1f);
-        _moveSpeed = Mathf.InverseLerp(minMax.x, minMax.y, _moveInput);
+        
     }
 }

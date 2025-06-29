@@ -872,7 +872,7 @@ MonoBehaviour:
   Fighters:
   - {fileID: 0}
   - {fileID: 0}
-  _fighterPrefab: {fileID: 1399996284}
+  _fighterPrefab: {fileID: 5141563347109910824, guid: 3e71359834849dd4fbbad42047fb9a82, type: 3}
   _spawnPoints:
   - {fileID: 190478837}
   - {fileID: 2119039793}

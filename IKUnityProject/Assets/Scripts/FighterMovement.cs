@@ -9,7 +9,10 @@ public class FighterMovement : MonoBehaviour
     public Action OnMoveStart;
     public Action OnMoveStop;
     public float MoveSpeed = 5f;
+    public float AirMoveSpeed = 8f;
+    public float MoveInput => _moveInput;
     private float _moveInput;
+    public bool CanMove => _canMove;
     private bool _canMove = true;
     private bool _flipped;
     
@@ -20,7 +23,9 @@ public class FighterMovement : MonoBehaviour
     public float GroundDistance = 0.2f;
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private LayerMask _groundMask;
-    [SerializeField] private bool _isJumping;
+    public bool IsGrounded => _isGrounded;
+    [SerializeField] private bool _isGrounded = true;
+    [SerializeField] private bool _wasGrounded;
     
     private Rigidbody _rb;
     private StateManager _stateManager;
@@ -49,21 +54,22 @@ public class FighterMovement : MonoBehaviour
 
     private void OnJump(InputValue value)
     {
-        if (_isJumping)
+        if (_stateManager.State != FighterState.Neutral && _stateManager.State != FighterState.Moving)
             return;
 
-        _isJumping = true;
-        OnJumpStart?.Invoke();
         _rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+        OnJumpStart?.Invoke();
+        Debug.Log("Jump");
     }
 
     private void Update()
     {
-        var thisFrameIsGrounded = Physics.Raycast(_groundCheck.position, -_groundCheck.up, GroundDistance, _groundMask);
-        if (thisFrameIsGrounded && _isJumping && _rb.linearVelocity.y < 0)
+        _wasGrounded = _isGrounded;
+        _isGrounded = Physics.CheckSphere(_groundCheck.position, GroundDistance, _groundMask);
+        if (!_wasGrounded && _isGrounded)
         {
-            _isJumping = false;
             OnJumpLand?.Invoke();
+            Debug.Log("Jump Land");
         }
     }
 
@@ -76,8 +82,10 @@ public class FighterMovement : MonoBehaviour
             OnMoveStart?.Invoke();
         else
             OnMoveStop?.Invoke();
+        
+        var speed = _isGrounded ? MoveSpeed : AirMoveSpeed;
 
-        var movement = Vector3.forward * (_moveInput * (MoveSpeed * Time.fixedDeltaTime));
+        var movement = Vector3.forward * (_moveInput * (speed * Time.fixedDeltaTime));
         _rb.MovePosition(_rb.position + movement);
     }
 }

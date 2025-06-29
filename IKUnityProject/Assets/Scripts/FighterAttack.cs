@@ -6,6 +6,9 @@ using UnityEngine.Serialization;
 
 public class FighterAttack : MonoBehaviour
 {
+    public Action OnStartLAttack;
+    public Action OnStartMAttack;
+    
     public Action OnStartAttack;
     public Action OnStartActiveFrames;
     public Action OnStartRecover;
@@ -13,16 +16,29 @@ public class FighterAttack : MonoBehaviour
     
     [SerializeField] private AttackData _lPunchData;
     [SerializeField] private AttackData _mPunchData;
-
+    
     private StateManager _stateManager;
+
+    private void Awake()
+    {
+        _stateManager = GetComponent<StateManager>();
+    }
 
     private void OnLAttack(InputValue value)
     {
+        if (_stateManager.State != FighterState.Neutral && _stateManager.State != FighterState.Moving) 
+            return;
+        
+        OnStartLAttack?.Invoke();
         StartCoroutine(ActionCoroutine(_lPunchData));
     }
     
     private void OnMAttack(InputValue value)
     {
+        if (_stateManager.State != FighterState.Neutral && _stateManager.State != FighterState.Moving) 
+            return;
+        
+        OnStartMAttack?.Invoke();
         StartCoroutine(ActionCoroutine(_mPunchData));
     }
 

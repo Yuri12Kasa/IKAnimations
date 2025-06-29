@@ -2287,7 +2287,7 @@ GameObject:
   - component: {fileID: 1834672626883351769}
   - component: {fileID: 2190102038429068988}
   m_Layer: 0
-  m_Name: Fighter1
+  m_Name: Fighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2578,13 +2578,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 1.5
-  JumpForce: 5
+  AirMoveSpeed: 3
+  JumpForce: 6
   GroundDistance: 0.1
   _groundCheck: {fileID: 4284711893162054487}
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
   _isGrounded: 1
+  _wasGrounded: 1
 --- !u!114 &2190102038429068988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2598,7 +2600,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 4108241045725883658}
-  _flipped: 0
 --- !u!1 &5200325942468868911
 GameObject:
   m_ObjectHideFlags: 0
