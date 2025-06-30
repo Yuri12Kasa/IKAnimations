@@ -49,7 +49,10 @@ public class FighterAnimatorController : MonoBehaviour
     private void Update()
     {
         if (!_fighterMovement.CanMove)
+        {
+            _animator.SetFloat(Speed, 0.5f);
             return;
+        }
         
         var minMax = Mathf.Approximately(transform.eulerAngles.y, 180) ? 
             new Vector2(1f, -1f) : new Vector2(-1f, 1f);

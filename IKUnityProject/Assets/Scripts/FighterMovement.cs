@@ -42,8 +42,8 @@ public class FighterMovement : MonoBehaviour
         _canMove = newState switch
         {
             FighterState.Neutral or FighterState.Moving => true,
-            FighterState.Startup => false,
-            _ => _canMove
+            FighterState.Startup or FighterState.Active or FighterState.Recover => false,
+            _ => _canMove 
         };
     }
 

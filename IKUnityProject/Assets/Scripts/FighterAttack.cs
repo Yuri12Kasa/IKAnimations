@@ -29,6 +29,7 @@ public class FighterAttack : MonoBehaviour
         if (_stateManager.State != FighterState.Neutral && _stateManager.State != FighterState.Moving) 
             return;
         
+        StopAllCoroutines();
         OnStartLAttack?.Invoke();
         StartCoroutine(ActionCoroutine(_lPunchData));
     }
@@ -38,6 +39,7 @@ public class FighterAttack : MonoBehaviour
         if (_stateManager.State != FighterState.Neutral && _stateManager.State != FighterState.Moving) 
             return;
         
+        StopAllCoroutines();
         OnStartMAttack?.Invoke();
         StartCoroutine(ActionCoroutine(_mPunchData));
     }
