@@ -59,7 +59,6 @@ public class FighterMovement : MonoBehaviour
 
         _rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
         OnJumpStart?.Invoke();
-        Debug.Log("Jump");
     }
 
     private void Update()
@@ -69,7 +68,6 @@ public class FighterMovement : MonoBehaviour
         if (!_wasGrounded && _isGrounded)
         {
             OnJumpLand?.Invoke();
-            Debug.Log("Jump Land");
         }
     }
 

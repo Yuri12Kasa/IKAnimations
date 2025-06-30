@@ -63,6 +63,12 @@ public class SpawnManager : MonoBehaviour
             Fighters[i].position = _spawnPoints[i].position;
             Fighters[i].rotation = _spawnPoints[i].rotation;
         }
+
+        var targetController1 = Fighters[0].GetComponent<TargetController>();
+        var targetController2 = Fighters[1].GetComponent<TargetController>();
+        targetController1.SetOpponent(targetController2);
+        targetController2.SetOpponent(targetController1);
+        
     }
 
     private void Update()
