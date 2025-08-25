@@ -5,6 +5,8 @@ using UnityEngine;
 public class StateManager : MonoBehaviour
 {
     public Action<FighterState> OnStateChange;
+    
+    [SerializeField] private HitReact[] _hitReacts;
 
     [field: ReadOnly]
     [field: SerializeField]

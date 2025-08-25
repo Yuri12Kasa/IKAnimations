@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class HitReact : MonoBehaviour
 {
-    public Action OnHit;
+    public Action<HitData> OnHit;
     private Collider _collider;
 
     private void Awake()
@@ -12,10 +12,20 @@ public class HitReact : MonoBehaviour
         _collider = GetComponent<Collider>();
         _collider.isTrigger = true;
     }
+    
+    public void EnableTrigger()
+    {
+        _collider.enabled = true;
+    }
+    
+    public void DisableTrigger()
+    {
+        _collider.enabled = false;
+    }
 
     public void ApplyHit(HitData hitData)
     {
-        OnHit?.Invoke();
+        OnHit?.Invoke(hitData);
         Debug.Log($"Applied Hit Data: Direction {hitData.Direction}, Damage: {hitData.Damage}, Force: {hitData.Force}");
     }
 }

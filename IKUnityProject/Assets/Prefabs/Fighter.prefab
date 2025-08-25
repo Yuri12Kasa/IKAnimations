@@ -2023,6 +2023,7 @@ GameObject:
   - component: {fileID: 9140087998860068574}
   - component: {fileID: 6634839594997525283}
   - component: {fileID: 8497671071065223823}
+  - component: {fileID: 802317575821926026}
   m_Layer: 0
   m_Name: HeadHitReact
   m_TagString: HitReact
@@ -2078,6 +2079,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 235affa5170928c45abc0db30c23a2b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &802317575821926026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4477273597130350952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9bfb8a631d8489fa33c40300b53fc87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitReact: {fileID: 8497671071065223823}
+  _curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.2524751
+      outSlope: 0.2524751
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.42083335
+    - serializedVersion: 3
+      time: 0.675
+      value: 0.8666667
+      inSlope: 0.40140834
+      outSlope: 0.40140834
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.31067953
+      outWeight: 0.633908
+    - serializedVersion: 3
+      time: 0.98612124
+      value: 0.02500353
+      inSlope: 0.00002268954
+      outSlope: 0.00002268954
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.32001403
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _maxStunTime: 0.3
+  _head: {fileID: 6138962524821060484}
+  _target: {fileID: 5078611260115841744}
+  _distance: 0.5
 --- !u!1 &4741810920881162982
 GameObject:
   m_ObjectHideFlags: 0
@@ -2140,12 +2191,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:RightArm'\n\tTransform
-    'mixamorig:LeftLeg'\n\tTransform 'mixamorig:Head'\n\tTransform 'mixamorig:LeftUpLeg'\n\tTransform
-    'mixamorig:LeftArm'\n\tTransform 'mixamorig:RightLeg'\n\tTransform 'mixamorig:LeftForeArm'\n\tTransform
-    'mixamorig:RightToeBase'\n\tTransform 'mixamorig:RightForeArm'\n\tand more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -2578,6 +2624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3eb681931c4d6dabd7ad9e6e690e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitReacts: []
   <State>k__BackingField: 0
 --- !u!114 &576844029074432800
 MonoBehaviour:
@@ -2744,7 +2791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _opponent: {fileID: 0}
-  _head: {fileID: 6138962524821060484}
+  _head: {fileID: 9140087998860068574}
   _body: {fileID: 4231537263800878239}
   _legs: {fileID: 4339508305454305709}
   _aim: {fileID: 5078611260115841744}

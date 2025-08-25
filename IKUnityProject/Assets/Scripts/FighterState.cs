@@ -6,4 +6,5 @@ public enum FighterState
     Startup,
     Active,
     Recover,
+    Stun
 }
