@@ -8,9 +8,11 @@ public class AttackData
     public AnimationClip Clip => _clip;
     public AnimationCurve CurveIn => _curveIn;
     public AnimationCurve CurveOut => _curveOut;
+    public int Damage => _damage;
     
     [SerializeField] private LimbRigController _limbRig;
     [SerializeField] private AnimationClip _clip;
     [SerializeField] private AnimationCurve _curveIn;
     [SerializeField] private AnimationCurve _curveOut;
+    [SerializeField] private int _damage = 100;
 }

@@ -3,6 +3,8 @@ using UnityEngine.Animations.Rigging;
 
 public class LimbRigController : MonoBehaviour
 {
+    public float Weight => _rig.weight;
+    
     [SerializeField] private Transform _target;
     private Rig _rig;
 

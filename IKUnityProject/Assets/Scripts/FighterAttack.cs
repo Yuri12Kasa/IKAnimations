@@ -16,12 +16,21 @@ public class FighterAttack : MonoBehaviour
     
     [SerializeField] private AttackData _lPunchData;
     [SerializeField] private AttackData _mPunchData;
+
+    [SerializeField] private HitAttack _handHitAttack;
+
+    private AttackData _currentAttackData;
     
     private StateManager _stateManager;
 
     private void Awake()
     {
         _stateManager = GetComponent<StateManager>();
+    }
+
+    private void Start()
+    {
+        _handHitAttack.OnHit += ComputeHit;
     }
 
     private void OnLAttack(InputValue value)
@@ -46,15 +55,17 @@ public class FighterAttack : MonoBehaviour
 
     private IEnumerator ActionCoroutine(AttackData attackData)
     {
+        _currentAttackData = attackData;
         var clip = attackData.Clip;
         var limbRigController = attackData.LimbRig;
         var curveIn = attackData.CurveIn;
         var curveOut = attackData.CurveOut;
         
         OnStartAttack?.Invoke();
+        _handHitAttack.EnableTrigger();
         var clipDuration = clip.length;
         var actionConnection = clip.events[0].time;
-        Debug.Log($"Clip Duration: {clipDuration}, Action Connection: {actionConnection}");
+        //Debug.Log($"Clip Duration: {clipDuration}, Action Connection: {actionConnection}");
         var timer = 0f;
         float t;
         while (timer < actionConnection)
@@ -67,6 +78,7 @@ public class FighterAttack : MonoBehaviour
         
         limbRigController.SetRigWeight(1);
         OnStartRecover?.Invoke();
+        _handHitAttack.DisableTrigger();
         
         var remainingTime = clipDuration - actionConnection;
         timer = 0f;
@@ -80,6 +92,24 @@ public class FighterAttack : MonoBehaviour
         }
 
         limbRigController.SetRigWeight(0);
+        _currentAttackData = null;
         OnEndAttack?.Invoke();
+    }
+
+    private void ComputeHit(HitReact hitReact)
+    {
+        var hitData = new HitData
+        {
+            Direction = (hitReact.transform.position - _handHitAttack.transform.position).normalized,
+            Damage = _currentAttackData.Damage,
+            Force = _currentAttackData.LimbRig.Weight
+        };
+        Debug.Log($"Computed Hit Data: Direction {hitData.Direction}, Damage: {hitData.Damage}, Force: {hitData.Force}");
+        hitReact.ApplyHit(hitData);
+    }
+
+    private void OnDestroy()
+    {
+        _handHitAttack.OnHit -= ComputeHit;
     }
 }
