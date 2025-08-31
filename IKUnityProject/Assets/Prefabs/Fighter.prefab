@@ -402,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 0
+  m_Weight: 0.5
   m_Effectors: []
 --- !u!1 &1124509372919190010
 GameObject:
@@ -715,6 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ee680a5d76142df9bd3897272d8b728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stateManager: {fileID: 4979280811166985945}
 --- !u!1 &2132757915278597363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1806,6 +1807,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5343592174809526243}
+  - {fileID: 2086166618875986297}
   m_Father: {fileID: 5256008865520829660}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3859541883667905762
@@ -1941,6 +1943,123 @@ Transform:
   - {fileID: 6996186148305245365}
   m_Father: {fileID: 6650152597204391277}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4146788923359140482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2086166618875986297}
+  - component: {fileID: 9172177361034565136}
+  - component: {fileID: 2971873808778693240}
+  - component: {fileID: 1198569633987348631}
+  m_Layer: 0
+  m_Name: BodyHitReact
+  m_TagString: HitReact
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2086166618875986297
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4146788923359140482}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4231537263800878239}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &9172177361034565136
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4146788923359140482}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.35607156, y: 0.37728077, z: 0.28607365}
+  m_Center: {x: 0.0021558828, y: 0.090078734, z: 0.009216221}
+--- !u!114 &2971873808778693240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4146788923359140482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 235affa5170928c45abc0db30c23a2b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateManager: {fileID: 4979280811166985945}
+--- !u!114 &1198569633987348631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4146788923359140482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c92f8895265f4f4f9f83890029322b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitReact: {fileID: 2971873808778693240}
+  _curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 6.613635
+      outSlope: 6.613635
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12222223
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0.5172417
+      outSlope: 0.5172417
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.32222217
+      outWeight: 0.33333337
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.5218728
+      outSlope: -1.5218728
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.3777777
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _minStunTime: 0.5
+  _maxStunTime: 1
+  _target: {fileID: 7689910643655171675}
 --- !u!1 &4180074943403857928
 GameObject:
   m_ObjectHideFlags: 0
@@ -2126,6 +2245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 235affa5170928c45abc0db30c23a2b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stateManager: {fileID: 4979280811166985945}
 --- !u!114 &802317575821926026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2145,34 +2265,35 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.2524751
-      outSlope: 0.2524751
+      inSlope: 6.613635
+      outSlope: 6.613635
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.42083335
+      outWeight: 0.12222223
     - serializedVersion: 3
-      time: 0.675
-      value: 0.8666667
-      inSlope: 0.40140834
-      outSlope: 0.40140834
+      time: 0.5
+      value: 1
+      inSlope: 0.5172417
+      outSlope: 0.5172417
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.31067953
-      outWeight: 0.633908
+      inWeight: 0.32222217
+      outWeight: 0.33333337
     - serializedVersion: 3
-      time: 0.98612124
-      value: 0.02500353
-      inSlope: 0.00002268954
-      outSlope: 0.00002268954
+      time: 1
+      value: 0
+      inSlope: -1.5218728
+      outSlope: -1.5218728
       tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.32001403
-      outWeight: 0.33333334
+      weightedMode: 1
+      inWeight: 0.3777777
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _maxStunTime: 0.3
+  _minStunTime: 0.5
+  _maxStunTime: 1
   _head: {fileID: 6138962524821060484}
   _target: {fileID: 5078611260115841744}
   _distance: 0.5
@@ -2674,7 +2795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3eb681931c4d6dabd7ad9e6e690e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitReacts: []
+  PlayerNumber: 0
   <State>k__BackingField: 0
 --- !u!114 &576844029074432800
 MonoBehaviour:
@@ -3438,7 +3559,7 @@ Transform:
   m_GameObject: {fileID: 6714579223588866611}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.08, z: 0.758}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.19999999, y: 0.19999999, z: 0.19999999}
   m_ConstrainProportionsScale: 1
   m_Children: []

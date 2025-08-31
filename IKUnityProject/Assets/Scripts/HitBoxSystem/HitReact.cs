@@ -5,6 +5,8 @@ using UnityEngine;
 public class HitReact : MonoBehaviour
 {
     public Action<HitData> OnHit;
+    public int PlayerNumber => _stateManager.PlayerNumber;
+    [SerializeField] private StateManager _stateManager;
     private Collider _collider;
 
     private void Awake()

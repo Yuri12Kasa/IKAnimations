@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class HeadIKHitReact : IKHitDetection
 {
+    [SerializeField] private float _minStunTime = 0.5f;
     [SerializeField] private float _maxStunTime = 2;
     [SerializeField] private Transform _head;
     [SerializeField] private Transform _target;
@@ -17,7 +18,7 @@ public class HeadIKHitReact : IKHitDetection
     {
         _hitReact.DisableTrigger();
         var timer = 0f;
-        var duration = _maxStunTime * hitData.Force;
+        var duration = Mathf.Clamp(_maxStunTime * hitData.Force, _minStunTime, _maxStunTime);
         var startPos = _target.position;
         var endPos = _head.position + hitData.Direction * _distance;
         

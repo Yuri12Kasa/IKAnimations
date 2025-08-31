@@ -4,6 +4,8 @@ using UnityEngine;
 public class HitAttack : MonoBehaviour
 {
     public Action<HitReact> OnHit;
+    
+    [SerializeField] private StateManager _stateManager;
     private Collider _collider;
     
     private void Awake()
@@ -28,6 +30,9 @@ public class HitAttack : MonoBehaviour
         if (other.CompareTag("HitReact"))
         {
             var hitReact = other.GetComponent<HitReact>();
+            if(hitReact.PlayerNumber == _stateManager.PlayerNumber)
+                return;
+            DisableTrigger();
             OnHit?.Invoke(hitReact);
             Debug.Log($"HitReact got hit: {hitReact.name}");
         }

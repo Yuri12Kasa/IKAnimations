@@ -68,6 +68,8 @@ public class SpawnManager : MonoBehaviour
         var targetController2 = Fighters[1].GetComponent<TargetController>();
         targetController1.SetOpponent(targetController2);
         targetController2.SetOpponent(targetController1);
+        Fighters[0].GetComponent<StateManager>().PlayerNumber = 0;
+        Fighters[1].GetComponent<StateManager>().PlayerNumber = 1;
         
     }
 
