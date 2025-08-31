@@ -1,11 +1,13 @@
+using System;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 public class LimbRigController : MonoBehaviour
 {
+    public Transform TargetToFollow;
     public float Weight => _rig.weight;
-    
     [SerializeField] private Transform _target;
+    
     private Rig _rig;
 
     private void Awake()
@@ -18,8 +20,13 @@ public class LimbRigController : MonoBehaviour
         _rig.weight = weight;
     }
 
-    public void SetTargetPosition(Vector3 position)
+    private void Update()
     {
-        _target.position = position;
+        _target.position = TargetToFollow.position;
+    }
+
+    public void SetTargetToFollow(Transform target)
+    {
+        TargetToFollow = target;
     }
 }

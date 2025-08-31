@@ -15,6 +15,7 @@ public class TargetController : MonoBehaviour
     [SerializeField] private Transform _legs;
     
     [Header("IK Targets")]
+    public Transform Aim => _aim;
     [SerializeField] private Transform _aim;
     [SerializeField] private Transform _lAttack;
     [SerializeField] private Transform _mAttack;

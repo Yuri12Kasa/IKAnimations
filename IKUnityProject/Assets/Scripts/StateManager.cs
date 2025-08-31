@@ -13,6 +13,7 @@ public class StateManager : MonoBehaviour
 
     private FighterAttack _fighterAttack;
     private FighterMovement _fighterMovement;
+    private FighterGuard _fighterGuard;
 
     private void Awake()
     {
@@ -28,6 +29,10 @@ public class StateManager : MonoBehaviour
         
         _fighterMovement.OnJumpStart += () => SetState(FighterState.Jumping);
         _fighterMovement.OnJumpLand += () => SetState(FighterState.Neutral);
+        
+        _fighterGuard = GetComponent<FighterGuard>();
+        _fighterGuard.OnStartBlocking += () => SetState(FighterState.Blocking);
+        _fighterGuard.OnStopBlocking += () => SetState(FighterState.Neutral);
     }
 
     private void SetState(FighterState fighterState)
@@ -49,6 +54,7 @@ public class StateManager : MonoBehaviour
             return;
         State = FighterState.Neutral;
     }
+    
 
     private void OnDestroy()
     {
