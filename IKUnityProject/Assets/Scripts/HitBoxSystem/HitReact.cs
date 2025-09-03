@@ -4,7 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class HitReact : MonoBehaviour
 {
-    public Action<HitData> OnHit;
+    public Action<HitData> OnGetHit;
+    public Action OnStopStun;
     public int PlayerNumber => _stateManager.PlayerNumber;
     [SerializeField] private StateManager _stateManager;
     private Collider _collider;
@@ -27,7 +28,7 @@ public class HitReact : MonoBehaviour
 
     public void ApplyHit(HitData hitData)
     {
-        OnHit?.Invoke(hitData);
+        OnGetHit?.Invoke(hitData);
         Debug.Log($"Applied Hit Data: Direction {hitData.Direction}, Damage: {hitData.Damage}, Force: {hitData.Force}");
     }
 }

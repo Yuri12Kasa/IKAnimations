@@ -33,6 +33,7 @@ public class BodyIKHitReact : IKHitDetection
         }
         
         _hitReact.EnableTrigger();
+        _hitReact.OnStopStun?.Invoke();
     }
     
     private Quaternion LookRotationX(Vector3 xDir, Vector3 upHint)

@@ -3153,6 +3153,7 @@ GameObject:
   - component: {fileID: 1834672626883351769}
   - component: {fileID: 2190102038429068988}
   - component: {fileID: 777937514372501508}
+  - component: {fileID: 8044346265840126073}
   m_Layer: 0
   m_Name: Fighter
   m_TagString: Untagged
@@ -3448,7 +3449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88ed36f84bff4bc4bae5478afd6e526b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blockStartTime: 0.21
+  _blockStartTime: 0.1
   _limbRigControllers:
   - {fileID: 9111235370464855176}
   - {fileID: 7641376535792917415}
@@ -3475,6 +3476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 1.5
   AirMoveSpeed: 3
+  _canMove: 1
   JumpForce: 6
   GroundDistance: 0.1
   _groundCheck: {fileID: 4284711893162054487}
@@ -3540,6 +3542,21 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8044346265840126073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5141563347109910824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c05d9b1ab8427e9ae6a0ef9bf14f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitDetections:
+  - {fileID: 1198569633987348631}
+  - {fileID: 802317575821926026}
 --- !u!1 &5200325942468868911
 GameObject:
   m_ObjectHideFlags: 0

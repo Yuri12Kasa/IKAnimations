@@ -13,7 +13,7 @@ public class FighterMovement : MonoBehaviour
     public float MoveInput => _moveInput;
     private float _moveInput;
     public bool CanMove => _canMove;
-    private bool _canMove = true;
+    public bool _canMove = true;
     private bool _flipped;
     
     [Header("Jump")]
@@ -23,7 +23,6 @@ public class FighterMovement : MonoBehaviour
     public float GroundDistance = 0.2f;
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private LayerMask _groundMask;
-    public bool IsGrounded => _isGrounded;
     [SerializeField] private bool _isGrounded = true;
     [SerializeField] private bool _wasGrounded;
     
@@ -41,9 +40,8 @@ public class FighterMovement : MonoBehaviour
     {
         _canMove = newState switch
         {
-            FighterState.Neutral or FighterState.Moving => true,
-            FighterState.Startup or FighterState.Active or FighterState.Recover => false,
-            _ => _canMove 
+            FighterState.Neutral or FighterState.Moving or FighterState.Jumping => true,
+            _ => _canMove = false
         };
     }
 
@@ -75,11 +73,15 @@ public class FighterMovement : MonoBehaviour
     {
         if(!_canMove)
             return;
-        
+
         if (_moveInput != 0)
+        {
             OnMoveStart?.Invoke();
+        }
         else
+        {
             OnMoveStop?.Invoke();
+        }
         
         var speed = _isGrounded ? MoveSpeed : AirMoveSpeed;
 

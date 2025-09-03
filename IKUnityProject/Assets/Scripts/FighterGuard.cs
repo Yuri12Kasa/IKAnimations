@@ -73,7 +73,8 @@ public class FighterGuard : MonoBehaviour
 
     private void StopBlocking(InputAction.CallbackContext callbackContext)
     {
-        OnStopBlocking?.Invoke();
+        if (_stateManager.State is not FighterState.Blocking)
+            return;
         StartCoroutine(StopBlockingCoroutine());
     }
     
@@ -97,5 +98,6 @@ public class FighterGuard : MonoBehaviour
         }
         
         _isBlocking = false;
+        OnStopBlocking?.Invoke();
     }
 }
