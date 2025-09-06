@@ -23,6 +23,7 @@ public class LimbRigController : MonoBehaviour
     private void Update()
     {
         _target.position = TargetToFollow.position;
+        _target.rotation = TargetToFollow.rotation;
     }
 
     public void SetTargetToFollow(Transform target)

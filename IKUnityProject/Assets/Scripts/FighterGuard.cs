@@ -8,7 +8,7 @@ public class FighterGuard : MonoBehaviour
     public Action OnStartBlocking;
     public Action OnStopBlocking;
 
-    [SerializeField] private float _blockStartTime = 0.2f;
+    [SerializeField] private float _changePostureDuration = 0.1f;
     
     [SerializeField] private LimbRigController[] _limbRigControllers = new LimbRigController[2];
 
@@ -16,13 +16,16 @@ public class FighterGuard : MonoBehaviour
     [SerializeField] private Transform[] _blockLowPoints = new Transform[2];
     [SerializeField] private Transform[] _blockTargets = new Transform[2];
 
-    private bool _isBlocking;
+    private bool _blockingLow;
     
     private PlayerInput _playerInput;
     private InputAction _blockAction;
+    private InputAction _lowAimAction;
     
     private Transform _defaultTarget;
     private StateManager _stateManager;
+
+    private Coroutine _currentCoroutine;
 
     private void Awake()
     {
@@ -36,21 +39,28 @@ public class FighterGuard : MonoBehaviour
         _blockAction.performed += StartBlocking;
         _blockAction.canceled += StopBlocking;
         
+        _lowAimAction = _playerInput.actions.FindAction("AimLow");
+
+        _lowAimAction.performed += ChangeBlockPosition;
+        _lowAimAction.canceled += ChangeBlockPosition;
+        
         _defaultTarget = GetComponent<TargetController>().Aim;
         _stateManager = GetComponentInParent<StateManager>();
     }
 
     private void StartBlocking(InputAction.CallbackContext callbackContext)
     {
-        if (_stateManager.State is FighterState.Neutral or FighterState.Moving)
-        {
-            OnStartBlocking?.Invoke();
+        if (_stateManager.State is not (FighterState.Neutral or FighterState.Moving)) 
+            return;
+        
+        OnStartBlocking?.Invoke();
 
-            for (var i = 0; i < _limbRigControllers.Length; i++)
-            {
-                _limbRigControllers[i].SetTargetToFollow(_blockTargets[i]);
-                StartCoroutine(StartBlockingCoroutine());
-            }
+        for (var i = 0; i < _limbRigControllers.Length; i++)
+        {
+            _limbRigControllers[i].SetTargetToFollow(_blockTargets[i]);
+            if(_currentCoroutine != null) 
+                StopCoroutine(_currentCoroutine);
+            _currentCoroutine = StartCoroutine(StartBlockingCoroutine());
         }
     }
 
@@ -58,36 +68,39 @@ public class FighterGuard : MonoBehaviour
     {
         var timer = 0f;
 
-        while (timer < _blockStartTime)
+        while (timer < _changePostureDuration)
         {
             timer += Time.deltaTime;
             foreach (var limbRigController in _limbRigControllers)
             {
-                limbRigController.SetRigWeight(timer / _blockStartTime);
+                limbRigController.SetRigWeight(timer / _changePostureDuration);
             }
             yield return null;
-        }
+        } 
         
-        _isBlocking = true;
+        _currentCoroutine = null;
     }
 
     private void StopBlocking(InputAction.CallbackContext callbackContext)
     {
         if (_stateManager.State is not FighterState.Blocking)
             return;
-        StartCoroutine(StopBlockingCoroutine());
+        
+        if(_currentCoroutine != null) 
+            StopCoroutine(_currentCoroutine);
+        _currentCoroutine = StartCoroutine(StopBlockingCoroutine());
     }
     
     private IEnumerator StopBlockingCoroutine()
     {
         var timer = 0f;
 
-        while (timer < _blockStartTime)
+        while (timer < _changePostureDuration)
         {
             timer += Time.deltaTime;
             foreach (var limbRigController in _limbRigControllers)
             {
-                limbRigController.SetRigWeight(1 - timer / _blockStartTime);
+                limbRigController.SetRigWeight(1 - timer / _changePostureDuration);
             }
             yield return null;
         }
@@ -97,7 +110,50 @@ public class FighterGuard : MonoBehaviour
             limbRigController.TargetToFollow = _defaultTarget;
         }
         
-        _isBlocking = false;
         OnStopBlocking?.Invoke();
+        
+        _currentCoroutine = null;
+    }
+
+    private void ChangeBlockPosition(InputAction.CallbackContext callbackContext)
+    {
+        if(_stateManager.State is not FighterState.Blocking)
+            return;
+
+        if(_currentCoroutine != null) 
+            StopCoroutine(_currentCoroutine);
+        
+        if (_blockingLow)
+        {
+            _blockingLow = false;
+            _currentCoroutine = StartCoroutine(LerpGuardTargets(_blockHighPoints));
+        }
+        else
+        {
+            _blockingLow = true;
+            _currentCoroutine = StartCoroutine(LerpGuardTargets(_blockLowPoints));
+        }
+    }
+
+    private IEnumerator LerpGuardTargets(Transform[] targets)
+    {
+        var timer = 0f;
+        
+        var startPos1 = _blockTargets[0].position;
+        var startPos2 = _blockTargets[1].position;
+
+        while (timer < _changePostureDuration)
+        {
+            timer += Time.deltaTime;
+            _blockTargets[0].position = Vector3.Lerp(startPos1, targets[0].position, timer / _changePostureDuration);
+            _blockTargets[1].position = Vector3.Lerp(startPos2, targets[1].position, timer / _changePostureDuration);
+            
+            yield return null;
+        }
+        
+        _blockTargets[0].position = targets[0].position;
+        _blockTargets[1].position = targets[1].position;
+        
+        _currentCoroutine =  null;   
     }
 }
