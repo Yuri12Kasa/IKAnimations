@@ -9,13 +9,16 @@ public class HeadIKHitReact : IKHitDetection
     [SerializeField] private Transform _target;
     [SerializeField] private float _distance = 0.5f;
     
-    protected override void OnHit(HitData hitData)
+    protected override void OnHit(HitData hitData, bool isProtected)
     {
-        StartCoroutine(HitCoroutine(hitData));
+        if (!isProtected)
+            StartCoroutine(HitCoroutine(hitData));
     }
 
     private IEnumerator HitCoroutine(HitData hitData)
     {
+        StartStun?.Invoke();
+        
         _hitReact.DisableTrigger();
         var timer = 0f;
         var duration = Mathf.Clamp(_maxStunTime * hitData.Force, _minStunTime, _maxStunTime);
@@ -30,6 +33,7 @@ public class HeadIKHitReact : IKHitDetection
         }
         
         _hitReact.EnableTrigger();
+        
         StopStun?.Invoke();
     }
 }

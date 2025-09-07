@@ -49,6 +49,8 @@ public class FighterGuard : MonoBehaviour
         
         _defaultTarget = GetComponent<TargetController>().Aim;
         _stateManager = GetComponentInParent<StateManager>();
+        _bodyHitReact.OnGetHit += OnGetHit;
+        _headHitReact.OnGetHit += OnGetHit;
     }
 
     private void Update()
@@ -102,11 +104,11 @@ public class FighterGuard : MonoBehaviour
         
         if (_blockingLow)
         {
-            _bodyHitReact.DisableTrigger();
+            _bodyHitReact.EnableProtection();
         }
         else
         {
-            _headHitReact.DisableTrigger();
+            _headHitReact.EnableProtection();
         }
         
         _currentCoroutine = null;
@@ -144,8 +146,8 @@ public class FighterGuard : MonoBehaviour
         _blockTargets[0].position = _blockHighPoints[0].position;
         _blockTargets[1].position = _blockHighPoints[1].position;
         
-        _bodyHitReact.EnableTrigger();
-        _headHitReact.EnableTrigger();
+        _bodyHitReact.DisableProtection();
+        _headHitReact.DisableProtection();
         
         OnStopBlocking?.Invoke();
         
@@ -160,8 +162,8 @@ public class FighterGuard : MonoBehaviour
         if(_currentCoroutine != null) 
             StopCoroutine(_currentCoroutine);
         
-        _bodyHitReact.EnableTrigger();
-        _headHitReact.DisableTrigger();
+        _bodyHitReact.DisableProtection();
+        _headHitReact.EnableProtection();
         
         _blockingLow = false;
         _currentCoroutine = StartCoroutine(LerpGuardTargets(_blockHighPoints));
@@ -175,8 +177,8 @@ public class FighterGuard : MonoBehaviour
         if(_currentCoroutine != null) 
             StopCoroutine(_currentCoroutine);
         
-        _bodyHitReact.DisableTrigger();
-        _headHitReact.EnableTrigger();
+        _bodyHitReact.EnableProtection();
+        _headHitReact.DisableProtection();
         
         _blockingLow = true;
         _currentCoroutine = StartCoroutine(LerpGuardTargets(_blockLowPoints));
@@ -202,5 +204,27 @@ public class FighterGuard : MonoBehaviour
         _blockTargets[1].position = targets[1].position;
         
         _currentCoroutine =  null;   
+    }
+
+    private void OnGetHit(HitData hitData, bool isProtected)
+    {
+        if (isProtected)
+            return;
+        
+        foreach (var limbRigController in _limbRigControllers)
+        {
+            limbRigController.SetRigWeight(0);
+            limbRigController.TargetToFollow = _defaultTarget;
+        }
+    
+        _blockTargets[0].position = _blockHighPoints[0].position;
+        _blockTargets[1].position = _blockHighPoints[1].position;
+    
+        _bodyHitReact.DisableProtection();
+        _headHitReact.DisableProtection();
+    
+        OnStopBlocking?.Invoke();
+    
+        _currentCoroutine = null;
     }
 }

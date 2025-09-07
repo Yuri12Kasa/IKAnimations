@@ -41,7 +41,7 @@ public class SpawnManager : MonoBehaviour
                 break;
             case 1:
                 firstFighterInput = gamepads[0];
-                secondFighterInput = null;
+                secondFighterInput = Keyboard.current;
                 break;
             default:
                 firstFighterInput = gamepads[0];

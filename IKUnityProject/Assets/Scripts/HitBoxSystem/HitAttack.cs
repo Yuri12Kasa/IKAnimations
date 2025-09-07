@@ -34,7 +34,7 @@ public class HitAttack : MonoBehaviour
                 return;
             DisableTrigger();
             OnHit?.Invoke(hitReact);
-            Debug.Log($"HitReact got hit: {hitReact.name}");
+            //Debug.Log($"HitReact got hit: {hitReact.name}");
         }
     }
     

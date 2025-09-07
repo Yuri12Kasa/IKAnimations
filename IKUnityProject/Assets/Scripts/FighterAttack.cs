@@ -103,7 +103,7 @@ public class FighterAttack : MonoBehaviour
             Damage = _currentAttackData.Damage,
             Force = _currentAttackData.LimbRig.Weight
         };
-        Debug.Log($"Computed Hit Data: Direction {hitData.Direction}, Damage: {hitData.Damage}, Force: {hitData.Force}");
+        //Debug.Log($"Computed Hit Data: Direction {hitData.Direction}, Damage: {hitData.Damage}, Force: {hitData.Force}");
         hitReact.ApplyHit(hitData);
     }
 

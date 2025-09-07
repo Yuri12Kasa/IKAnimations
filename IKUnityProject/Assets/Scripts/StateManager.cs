@@ -42,7 +42,7 @@ public class StateManager : MonoBehaviour
 
     private void SetState(FighterState fighterState)
     {
-        Debug.Log($"New fighter state {fighterState}");
+        //Debug.Log($"New fighter state {fighterState}");
         State = fighterState;
         OnStateChange?.Invoke(fighterState);
     }

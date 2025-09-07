@@ -7,9 +7,10 @@ public class BodyIKHitReact : IKHitDetection
     [SerializeField] private float _maxStunTime = 0.7f;
     [SerializeField] private Transform _target;
 
-    protected override void OnHit(HitData hitData)
+    protected override void OnHit(HitData hitData, bool isProtected)
     {
-        StartCoroutine(HitCoroutine(hitData));
+        if(!isProtected)
+            StartCoroutine(HitCoroutine(hitData));
     }
 
     private IEnumerator HitCoroutine(HitData hitData)
@@ -19,7 +20,7 @@ public class BodyIKHitReact : IKHitDetection
         var timer = 0f;
         var duration = Mathf.Clamp(_maxStunTime * hitData.Force, _minStunTime, _maxStunTime);
         var startDir = _target.right;
-        var endDir = hitData.Direction * -1;
+        var endDir = -hitData.Direction;
         
         var startRot = LookRotationX(startDir, Vector3.up);
         var endRot = LookRotationX(endDir, Vector3.up);

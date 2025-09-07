@@ -11,8 +11,7 @@ public abstract class IKHitDetection : MonoBehaviour
     private void Awake()
     {
         _hitReact.OnGetHit += OnHit;
-        _hitReact.OnGetHit += _ => StartStun?.Invoke();
     }
 
-    protected abstract void OnHit(HitData hitData);
+    protected abstract void OnHit(HitData hitData, bool isProtected);
 }

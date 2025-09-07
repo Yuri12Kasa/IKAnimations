@@ -4,10 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class HitReact : MonoBehaviour
 {
-    public Action<HitData> OnGetHit;
+    public Action<HitData, bool> OnGetHit;
     public int PlayerNumber => _stateManager.PlayerNumber;
     [SerializeField] private StateManager _stateManager;
+    
     private Collider _collider;
+    [SerializeField] private bool _isProtected;
 
     private void Awake()
     {
@@ -25,9 +27,19 @@ public class HitReact : MonoBehaviour
         _collider.enabled = false;
     }
 
+    public void EnableProtection()
+    {
+        _isProtected = true;
+    }
+
+    public void DisableProtection()
+    {
+        _isProtected = false;
+    }
+
     public void ApplyHit(HitData hitData)
     {
-        OnGetHit?.Invoke(hitData);
-        Debug.Log($"Applied Hit Data: Direction {hitData.Direction}, Damage: {hitData.Damage}, Force: {hitData.Force}");
+        OnGetHit?.Invoke(hitData, _isProtected);
+        //Debug.Log($"Applied Hit Data: Direction {hitData.Direction}, Damage: {hitData.Damage}, Force: {hitData.Force}");
     }
 }
