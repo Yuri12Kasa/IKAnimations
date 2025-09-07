@@ -9,7 +9,7 @@ public class HitReact : MonoBehaviour
     [SerializeField] private StateManager _stateManager;
     
     private Collider _collider;
-    [SerializeField] private bool _isProtected;
+    private bool _isProtected;
 
     private void Awake()
     {

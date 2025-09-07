@@ -3240,6 +3240,7 @@ GameObject:
   - component: {fileID: 2190102038429068988}
   - component: {fileID: 777937514372501508}
   - component: {fileID: 8044346265840126073}
+  - component: {fileID: 8220950472823802754}
   m_Layer: 0
   m_Name: Fighter
   m_TagString: Untagged
@@ -3469,7 +3470,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    _damage: 100
+    _damage: 20
   _mPunchData:
     _limbRig: {fileID: 9111235370464855176}
     _clip: {fileID: 7400000, guid: 56b00495330cf2a4caafa36fb5bb5bc0, type: 2}
@@ -3521,7 +3522,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    _damage: 100
+    _damage: 30
   _handHitAttack: {fileID: 6668749320192766886}
 --- !u!114 &8158563250545293137
 MonoBehaviour:
@@ -3645,6 +3646,21 @@ MonoBehaviour:
   _hitDetections:
   - {fileID: 1198569633987348631}
   - {fileID: 802317575821926026}
+--- !u!114 &8220950472823802754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5141563347109910824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3a5ae170684a27bbe654bafea8a1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _startingHealth: 100
+  _currentHealth: 0
 --- !u!1 &5200325942468868911
 GameObject:
   m_ObjectHideFlags: 0

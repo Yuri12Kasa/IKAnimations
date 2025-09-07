@@ -1,3 +1,4 @@
+using Health;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private GameObject _fighterPrefab;
     [SerializeField] private Transform[] _spawnPoints = new Transform[2];
+    [SerializeField] private HealthUI[] _healthUI = new HealthUI[2];
 
     private bool _flipped;
 
@@ -71,6 +73,8 @@ public class SpawnManager : MonoBehaviour
         Fighters[0].GetComponent<StateManager>().PlayerNumber = 0;
         Fighters[1].GetComponent<StateManager>().PlayerNumber = 1;
         
+        _healthUI[0].SetHealthComponent(Fighters[0].GetComponent<HealthComponent>());
+        _healthUI[1].SetHealthComponent(Fighters[1].GetComponent<HealthComponent>());
     }
 
     private void Update()

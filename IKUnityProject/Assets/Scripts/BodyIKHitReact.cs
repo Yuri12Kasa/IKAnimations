@@ -15,7 +15,11 @@ public class BodyIKHitReact : IKHitDetection
 
     private IEnumerator HitCoroutine(HitData hitData)
     {
+        StartStun?.Invoke();
+        
         _hitReact.DisableTrigger();
+        
+        OnTakeDamage?.Invoke((int)(hitData.MaxDamage * hitData.Force));
         
         var timer = 0f;
         var duration = Mathf.Clamp(_maxStunTime * hitData.Force, _minStunTime, _maxStunTime);

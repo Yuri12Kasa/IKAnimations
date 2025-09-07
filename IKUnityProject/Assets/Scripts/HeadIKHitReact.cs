@@ -20,6 +20,9 @@ public class HeadIKHitReact : IKHitDetection
         StartStun?.Invoke();
         
         _hitReact.DisableTrigger();
+        
+        OnTakeDamage?.Invoke((int)(hitData.MaxDamage * hitData.Force));
+        
         var timer = 0f;
         var duration = Mathf.Clamp(_maxStunTime * hitData.Force, _minStunTime, _maxStunTime);
         var startPos = _target.position;
