@@ -5,7 +5,6 @@ using UnityEngine;
 public class HitReact : MonoBehaviour
 {
     public Action<HitData> OnGetHit;
-    public Action OnStopStun;
     public int PlayerNumber => _stateManager.PlayerNumber;
     [SerializeField] private StateManager _stateManager;
     private Collider _collider;

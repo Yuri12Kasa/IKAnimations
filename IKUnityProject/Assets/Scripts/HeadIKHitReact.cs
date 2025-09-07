@@ -30,6 +30,6 @@ public class HeadIKHitReact : IKHitDetection
         }
         
         _hitReact.EnableTrigger();
-        _hitReact.OnStopStun?.Invoke();
+        StopStun?.Invoke();
     }
 }

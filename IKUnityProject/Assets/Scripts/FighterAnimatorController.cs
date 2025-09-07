@@ -6,7 +6,6 @@ public class FighterAnimatorController : MonoBehaviour
     private static readonly int LAttack = Animator.StringToHash("LAttack");
     private static readonly int MAttack = Animator.StringToHash("MAttack");
     private static readonly int Jump = Animator.StringToHash("Jumping");
-    private static readonly int Blocking = Animator.StringToHash("Blocking");
 
     [SerializeField] private Animator _animator;
 
@@ -26,10 +25,6 @@ public class FighterAnimatorController : MonoBehaviour
         _fighterAttack = GetComponent<FighterAttack>();
         _fighterAttack.OnStartLAttack += OnStartLAttack;
         _fighterAttack.OnStartMAttack += OnStartMAttack;
-        
-        _fighterGuard = GetComponent<FighterGuard>();
-        _fighterGuard.OnStartBlocking += OnStartBlocking;
-        _fighterGuard.OnStopBlocking += OnStopBlocking;
     }
 
     private void OnStartJump()
@@ -50,16 +45,6 @@ public class FighterAnimatorController : MonoBehaviour
     private void OnStartMAttack()
     {
         _animator.SetTrigger(MAttack);
-    }
-
-    private void OnStartBlocking()
-    {
-        //_animator.SetBool(Blocking, true);
-    }
-    
-    private void OnStopBlocking()
-    {
-        //_animator.SetBool(Blocking, false);
     }
 
     private void Update()

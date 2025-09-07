@@ -15,6 +15,9 @@ public class FighterGuard : MonoBehaviour
     [SerializeField] private Transform[] _blockHighPoints = new Transform[2];
     [SerializeField] private Transform[] _blockLowPoints = new Transform[2];
     [SerializeField] private Transform[] _blockTargets = new Transform[2];
+    
+    [SerializeField] private HitReact _bodyHitReact;
+    [SerializeField] private HitReact _headHitReact;
 
     private bool _blockingLow;
     
@@ -41,11 +44,30 @@ public class FighterGuard : MonoBehaviour
         
         _lowAimAction = _playerInput.actions.FindAction("AimLow");
 
-        _lowAimAction.performed += ChangeBlockPosition;
-        _lowAimAction.canceled += ChangeBlockPosition;
+        _lowAimAction.performed += BlockLow;
+        _lowAimAction.canceled += BlockHigh;
         
         _defaultTarget = GetComponent<TargetController>().Aim;
         _stateManager = GetComponentInParent<StateManager>();
+    }
+
+    private void Update()
+    {
+        if (_stateManager.State == FighterState.Blocking)
+            return;
+        
+        if (_lowAimAction.IsPressed())
+        {
+            _blockingLow = true;
+            _blockTargets[0].position = _blockLowPoints[0].position;
+            _blockTargets[1].position = _blockLowPoints[1].position;
+        }
+        else
+        {
+            _blockingLow = false;
+            _blockTargets[0].position = _blockHighPoints[0].position;
+            _blockTargets[1].position = _blockHighPoints[1].position;
+        }
     }
 
     private void StartBlocking(InputAction.CallbackContext callbackContext)
@@ -76,7 +98,16 @@ public class FighterGuard : MonoBehaviour
                 limbRigController.SetRigWeight(timer / _changePostureDuration);
             }
             yield return null;
-        } 
+        }
+        
+        if (_blockingLow)
+        {
+            _bodyHitReact.DisableTrigger();
+        }
+        else
+        {
+            _headHitReact.DisableTrigger();
+        }
         
         _currentCoroutine = null;
     }
@@ -110,12 +141,18 @@ public class FighterGuard : MonoBehaviour
             limbRigController.TargetToFollow = _defaultTarget;
         }
         
+        _blockTargets[0].position = _blockHighPoints[0].position;
+        _blockTargets[1].position = _blockHighPoints[1].position;
+        
+        _bodyHitReact.EnableTrigger();
+        _headHitReact.EnableTrigger();
+        
         OnStopBlocking?.Invoke();
         
         _currentCoroutine = null;
     }
 
-    private void ChangeBlockPosition(InputAction.CallbackContext callbackContext)
+    private void BlockHigh(InputAction.CallbackContext callbackContext)
     {
         if(_stateManager.State is not FighterState.Blocking)
             return;
@@ -123,16 +160,26 @@ public class FighterGuard : MonoBehaviour
         if(_currentCoroutine != null) 
             StopCoroutine(_currentCoroutine);
         
-        if (_blockingLow)
-        {
-            _blockingLow = false;
-            _currentCoroutine = StartCoroutine(LerpGuardTargets(_blockHighPoints));
-        }
-        else
-        {
-            _blockingLow = true;
-            _currentCoroutine = StartCoroutine(LerpGuardTargets(_blockLowPoints));
-        }
+        _bodyHitReact.EnableTrigger();
+        _headHitReact.DisableTrigger();
+        
+        _blockingLow = false;
+        _currentCoroutine = StartCoroutine(LerpGuardTargets(_blockHighPoints));
+    }
+    
+    private void BlockLow(InputAction.CallbackContext callbackContext)
+    {
+        if(_stateManager.State is not FighterState.Blocking)
+            return;
+
+        if(_currentCoroutine != null) 
+            StopCoroutine(_currentCoroutine);
+        
+        _bodyHitReact.DisableTrigger();
+        _headHitReact.EnableTrigger();
+        
+        _blockingLow = true;
+        _currentCoroutine = StartCoroutine(LerpGuardTargets(_blockLowPoints));
     }
 
     private IEnumerator LerpGuardTargets(Transform[] targets)

@@ -37,7 +37,7 @@ public class StateManager : MonoBehaviour
         
         _fighterHitController = GetComponent<FighterHitController>();
         _fighterHitController.StartStun += () => SetState(FighterState.Stun);
-        _fighterHitController.StartStun += () => SetState(FighterState.Neutral);
+        _fighterHitController.StopStun += () => SetState(FighterState.Neutral);
     }
 
     private void SetState(FighterState fighterState)
