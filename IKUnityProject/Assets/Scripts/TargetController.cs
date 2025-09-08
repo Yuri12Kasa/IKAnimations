@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
 
 public class TargetController : MonoBehaviour
 {
     [SerializeField] private TargetController _opponent;
+    [SerializeField] private Rig _headRig;
 
     [Header("Self Targets")] 
     public Transform Head => _head;
@@ -17,8 +19,6 @@ public class TargetController : MonoBehaviour
     [Header("IK Targets")]
     public Transform Aim => _aim;
     [SerializeField] private Transform _aim;
-    [SerializeField] private Transform _lAttack;
-    [SerializeField] private Transform _mAttack;
 
     [SerializeField] private float _lerpTargetDuration = 0.3f;
     [SerializeField] private AnimationCurve _curve;
@@ -43,6 +43,7 @@ public class TargetController : MonoBehaviour
         }
 
         _stateManager = GetComponent<StateManager>();
+        _stateManager.OnStateChange += CheckDeath;
 
         _input = GetComponent<PlayerInput>();
         _lowAimAction = _input.actions.FindAction("AimLow");
@@ -133,4 +134,14 @@ public class TargetController : MonoBehaviour
         if(!_opponent)
             _opponent =  opponent;  
     }
+
+    private void CheckDeath(FighterState state)
+    {
+        if (state != FighterState.Celebrating)
+            return;
+        
+        _headRig.weight = 0;
+    }
+    
+    
 }

@@ -14,6 +14,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private HealthUI[] _healthUI = new HealthUI[2];
 
     private bool _flipped;
+    private bool _gameOver;
 
     private void Awake()
     {
@@ -75,10 +76,14 @@ public class SpawnManager : MonoBehaviour
         
         _healthUI[0].SetHealthComponent(Fighters[0].GetComponent<HealthComponent>());
         _healthUI[1].SetHealthComponent(Fighters[1].GetComponent<HealthComponent>());
+
+        FighterHitController.OnDeath += CheckFighterDeath;
     }
 
     private void Update()
     {
+        if (_gameOver)
+            return;
         CheckFaceDirection();
     }
 
@@ -100,5 +105,10 @@ public class SpawnManager : MonoBehaviour
             Fighters[0].eulerAngles = new Vector3(0, 0, 0);
             Fighters[1].eulerAngles = new Vector3(0, 180, 0);
         }
+    }
+
+    private void CheckFighterDeath(Transform deadFighter)
+    {
+        _gameOver = true;
     }
 }

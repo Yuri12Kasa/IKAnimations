@@ -8,4 +8,6 @@ public enum FighterState
     Recover,
     Stun,
     Blocking,
+    Dead,
+    Celebrating
 }

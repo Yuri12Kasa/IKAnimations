@@ -7,6 +7,7 @@ namespace Health
     public class HealthComponent : MonoBehaviour
     {
         public Action<int> OnChangeHealth;
+        public Action OnDeath;
         
         public int MaxHealth => _maxHealth;
         [SerializeField] private int _maxHealth = 100;
@@ -25,6 +26,9 @@ namespace Health
             _currentHealth -= damage;
             OnChangeHealth?.Invoke(_currentHealth);
             _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
+            
+            if (_currentHealth <= 0) 
+                OnDeath?.Invoke();
         }
     }
 }

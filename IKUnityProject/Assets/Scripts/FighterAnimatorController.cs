@@ -6,6 +6,7 @@ public class FighterAnimatorController : MonoBehaviour
     private static readonly int LAttack = Animator.StringToHash("LAttack");
     private static readonly int MAttack = Animator.StringToHash("MAttack");
     private static readonly int Jump = Animator.StringToHash("Jumping");
+    private static readonly int Celebrate = Animator.StringToHash("Celebrate");
 
     [SerializeField] private Animator _animator;
 
@@ -15,6 +16,7 @@ public class FighterAnimatorController : MonoBehaviour
     private FighterMovement _fighterMovement;
     private FighterAttack _fighterAttack;
     private FighterGuard _fighterGuard;
+    private StateManager _stateManager;
 
     private void Awake()
     {
@@ -25,6 +27,9 @@ public class FighterAnimatorController : MonoBehaviour
         _fighterAttack = GetComponent<FighterAttack>();
         _fighterAttack.OnStartLAttack += OnStartLAttack;
         _fighterAttack.OnStartMAttack += OnStartMAttack;
+        
+        _stateManager = GetComponent<StateManager>();
+        _stateManager.OnStateChange += OnStateChange;
     }
 
     private void OnStartJump()
@@ -59,7 +64,13 @@ public class FighterAnimatorController : MonoBehaviour
             new Vector2(1f, -1f) : new Vector2(-1f, 1f);
         _moveSpeed = Mathf.InverseLerp(minMax.x, minMax.y, _fighterMovement.MoveInput);
         _animator.SetFloat(Speed, _moveSpeed);
-        
     }
-    
+
+    private void OnStateChange(FighterState newState)
+    {
+        if (newState != FighterState.Celebrating)
+            return;
+        
+        _animator.SetTrigger(Celebrate);
+    }
 }

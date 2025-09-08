@@ -3088,6 +3088,7 @@ MonoBehaviour:
   _minStunTime: 0.5
   _maxStunTime: 1
   _target: {fileID: 7689910643655171675}
+  _bodyRig: {fileID: 7059509478483746641}
 --- !u!1 &4173521107374015509
 GameObject:
   m_ObjectHideFlags: 0
@@ -4195,12 +4196,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _opponent: {fileID: 0}
+  _headRig: {fileID: 7695998750687179407}
   _head: {fileID: 9140087998860068574}
   _body: {fileID: 4231537263800878239}
   _legs: {fileID: 4339508305454305709}
   _aim: {fileID: 5078611260115841744}
-  _lAttack: {fileID: 0}
-  _mAttack: {fileID: 0}
   _lerpTargetDuration: 0.3
   _curve:
     serializedVersion: 2

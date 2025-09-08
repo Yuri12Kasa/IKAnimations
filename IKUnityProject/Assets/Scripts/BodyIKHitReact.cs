@@ -1,18 +1,23 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class BodyIKHitReact : IKHitDetection
 {
     [SerializeField] private float _minStunTime = 0.5f;
     [SerializeField] private float _maxStunTime = 0.7f;
     [SerializeField] private Transform _target;
+    [SerializeField] private Rig _bodyRig;
 
+    private void Start()
+    {
+        FighterHitController.OnDeath += OnDeath;
+    }
     protected override void OnHit(HitData hitData, bool isProtected)
     {
         if(!isProtected)
             StartCoroutine(HitCoroutine(hitData));
     }
-
     private IEnumerator HitCoroutine(HitData hitData)
     {
         StartStun?.Invoke();
@@ -40,7 +45,6 @@ public class BodyIKHitReact : IKHitDetection
         _hitReact.EnableTrigger();
         StopStun?.Invoke();
     }
-    
     private Quaternion LookRotationX(Vector3 xDir, Vector3 upHint)
     {
         Vector3 x = xDir.normalized;
@@ -60,5 +64,12 @@ public class BodyIKHitReact : IKHitDetection
         m.SetColumn(2, new Vector4(z.x, z.y, z.z, 0));
 
         return m.rotation;
+    }
+    private void OnDeath(Transform deadFighter)
+    {
+        if(deadFighter == transform)
+            return;
+
+        _bodyRig.weight = 0;
     }
 }

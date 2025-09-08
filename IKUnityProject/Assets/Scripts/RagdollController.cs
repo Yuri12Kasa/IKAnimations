@@ -21,7 +21,7 @@ public class RagdollController : MonoBehaviour
 
     }
 
-    [Button]
+    
     public void EnableRagdoll()
     {
         _fullBodyCollider.GetComponent<Rigidbody>().isKinematic = true;

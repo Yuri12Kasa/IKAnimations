@@ -1,6 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class StateManager : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class StateManager : MonoBehaviour
         _fighterHitController = GetComponent<FighterHitController>();
         _fighterHitController.StartStun += () => SetState(FighterState.Stun);
         _fighterHitController.StopStun += () => SetState(FighterState.Neutral);
+        FighterHitController.OnDeath += OnGameOver;
     }
 
     private void SetState(FighterState fighterState)
@@ -70,8 +72,20 @@ public class StateManager : MonoBehaviour
     {
         SetState(FighterState.Neutral);
     }
-    
 
+    private void OnGameOver(Transform deadFighter)
+    {
+        if (deadFighter == transform)
+        {
+            SetState(FighterState.Dead);
+        }
+        else
+        {
+            SetState(FighterState.Celebrating);
+            GetComponent<PlayerInput>().enabled = false;
+        }
+    }
+    
     private void OnDestroy()
     {
         _fighterMovement.OnMoveStart += OnMoveStart;
