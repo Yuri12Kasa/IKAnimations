@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -52,6 +53,11 @@ namespace Health
             }
 
             _resizingCoroutine = null;
+        }
+
+        private void OnDestroy()
+        {
+            _healthComponent.OnChangeHealth -= StartResizeAnimation;
         }
     }
 }

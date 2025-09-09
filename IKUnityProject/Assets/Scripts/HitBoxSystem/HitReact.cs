@@ -39,6 +39,7 @@ public class HitReact : MonoBehaviour
 
     public void ApplyHit(HitData hitData)
     {
+        Debug.Log($"Hit applied to {name}");
         OnGetHit?.Invoke(hitData, _isProtected);
         //Debug.Log($"Applied Hit Data: Direction {hitData.Direction}, Damage: {hitData.Damage}, Force: {hitData.Force}");
     }

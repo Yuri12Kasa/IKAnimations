@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -142,6 +143,12 @@ public class TargetController : MonoBehaviour
         
         _headRig.weight = 0;
     }
-    
-    
+
+    private void OnDestroy()
+    {
+        _stateManager.OnStateChange -= CheckDeath;
+
+        _lowAimAction.performed -= StartAim;
+        _lowAimAction.canceled -= StopAim;
+    }
 }

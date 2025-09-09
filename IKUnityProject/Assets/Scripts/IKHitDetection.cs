@@ -10,10 +10,15 @@ public abstract class IKHitDetection : MonoBehaviour
     [SerializeField] protected HitReact _hitReact;
     [SerializeField] protected AnimationCurve _curve;
     
-    private void Awake()
+    protected virtual void Start()
     {
         _hitReact.OnGetHit += OnHit;
     }
 
     protected abstract void OnHit(HitData hitData, bool isProtected);
+
+    protected virtual void OnDestroy()
+    {
+        _hitReact.OnGetHit -= OnHit;
+    }
 }

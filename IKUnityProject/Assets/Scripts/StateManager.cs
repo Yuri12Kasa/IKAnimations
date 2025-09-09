@@ -88,7 +88,12 @@ public class StateManager : MonoBehaviour
     
     private void OnDestroy()
     {
-        _fighterMovement.OnMoveStart += OnMoveStart;
-        _fighterMovement.OnMoveStop += OnMoveStop;
+        _fighterMovement.OnMoveStart -= OnMoveStart;
+        _fighterMovement.OnMoveStop -= OnMoveStop;
+
+        _fighterGuard.OnStartBlocking -= OnStartBlocking;
+        _fighterGuard.OnStopBlocking -= OnStopBlocking;
+
+        FighterHitController.OnDeath -= OnGameOver;
     }
 }

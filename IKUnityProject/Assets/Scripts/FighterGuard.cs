@@ -227,4 +227,16 @@ public class FighterGuard : MonoBehaviour
     
         _currentCoroutine = null;
     }
+
+    private void OnDestroy()
+    {
+        _blockAction.performed -= StartBlocking;
+        _blockAction.canceled -= StopBlocking;
+
+        _lowAimAction.performed -= BlockLow;
+        _lowAimAction.canceled -= BlockHigh;
+
+        _bodyHitReact.OnGetHit -= OnGetHit;
+        _headHitReact.OnGetHit -= OnGetHit;
+    }
 }

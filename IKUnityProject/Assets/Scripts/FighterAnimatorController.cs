@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FighterAnimatorController : MonoBehaviour
@@ -72,5 +73,16 @@ public class FighterAnimatorController : MonoBehaviour
             return;
         
         _animator.SetTrigger(Celebrate);
+    }
+
+    private void OnDestroy()
+    {
+        _fighterMovement.OnJumpStart -= OnStartJump;
+        _fighterMovement.OnJumpLand -= OnLand;
+
+        _fighterAttack.OnStartLAttack -= OnStartLAttack;
+        _fighterAttack.OnStartMAttack -= OnStartMAttack;
+
+        _stateManager.OnStateChange -= OnStateChange;
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class FighterMovement : MonoBehaviour
 {
@@ -87,5 +86,10 @@ public class FighterMovement : MonoBehaviour
 
         var movement = Vector3.forward * (_moveInput * (speed * Time.fixedDeltaTime));
         _rb.MovePosition(_rb.position + movement);
+    }
+
+    private void OnDestroy()
+    {
+        _stateManager.OnStateChange -= SetCanMove;
     }
 }

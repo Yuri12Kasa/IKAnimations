@@ -1,9 +1,14 @@
 using Health;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviour
 {
+    public Action OnDebugModeOn;
+    public Action OnDebugModeOff;
+
     public static SpawnManager Instance;
     private static SpawnManager _instance;
     
@@ -12,9 +17,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _fighterPrefab;
     [SerializeField] private Transform[] _spawnPoints = new Transform[2];
     [SerializeField] private HealthUI[] _healthUI = new HealthUI[2];
+    [SerializeField] private GameObject _gameOverMenu;
 
     private bool _flipped;
     private bool _gameOver;
+    public bool DebugMode => _debugMode;
+    private bool _debugMode = false;
 
     private void Awake()
     {
@@ -78,10 +86,26 @@ public class SpawnManager : MonoBehaviour
         _healthUI[1].SetHealthComponent(Fighters[1].GetComponent<HealthComponent>());
 
         FighterHitController.OnDeath += CheckFighterDeath;
+
+        _gameOverMenu.SetActive(false);
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (_debugMode)
+            {
+                _debugMode = false;
+                OnDebugModeOff?.Invoke();
+            }
+            else
+            {
+                _debugMode = true;
+                OnDebugModeOn?.Invoke();
+            }
+        }
+
         if (_gameOver)
             return;
         CheckFaceDirection();
@@ -110,5 +134,21 @@ public class SpawnManager : MonoBehaviour
     private void CheckFighterDeath(Transform deadFighter)
     {
         _gameOver = true;
+        _gameOverMenu.SetActive(true);
+    }
+
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
+    private void OnDestroy()
+    {
+        FighterHitController.OnDeath -= CheckFighterDeath;
     }
 }

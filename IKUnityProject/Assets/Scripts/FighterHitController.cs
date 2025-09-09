@@ -30,9 +30,9 @@ public class FighterHitController : MonoBehaviour
             hitDetection.StartStun += () => StartStun?.Invoke();
             hitDetection.OnTakeDamage += _healthComponent.TakeDamage;
             hitDetection.StopStun += () => StopStun?.Invoke();
-
-            _healthComponent.OnDeath += Death;
         }
+
+        _healthComponent.OnDeath += Death;
     }
 
     private void Death()
@@ -40,5 +40,15 @@ public class FighterHitController : MonoBehaviour
         _playerInput.enabled = false;
         _ragdollController.EnableRagdoll();
         OnDeath?.Invoke(transform);
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var hitDetection in _hitDetections)
+        {
+            hitDetection.OnTakeDamage -= _healthComponent.TakeDamage;
+        }
+
+        _healthComponent.OnDeath -= Death;
     }
 }

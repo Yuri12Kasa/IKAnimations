@@ -9,14 +9,23 @@ public class BodyIKHitReact : IKHitDetection
     [SerializeField] private Transform _target;
     [SerializeField] private Rig _bodyRig;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         FighterHitController.OnDeath += OnDeath;
     }
     protected override void OnHit(HitData hitData, bool isProtected)
     {
-        if(!isProtected)
+        Debug.Log("Fighter was hit");
+        if (!isProtected)
+        {
+            Debug.Log("Fighter was not protecting");
             StartCoroutine(HitCoroutine(hitData));
+        }
+        else
+        {
+            Debug.Log("Fighter was protecting");
+        }
     }
     private IEnumerator HitCoroutine(HitData hitData)
     {
@@ -71,5 +80,11 @@ public class BodyIKHitReact : IKHitDetection
             return;
 
         _bodyRig.weight = 0;
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        FighterHitController.OnDeath -= OnDeath;
     }
 }
