@@ -92,7 +92,7 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             if (_debugMode)
             {
